@@ -20,6 +20,7 @@
     <ItemGroup>
       <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
       <PackageReference Include="Carter" Version="8.0.0" />
+      <PackageReference Include="Marten" Version="8.37.0" />
     </ItemGroup>
 
 </Project>

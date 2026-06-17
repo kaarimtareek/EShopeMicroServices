@@ -1,6 +1,8 @@
-
+using Basket.API.Data;
 using BuildingBlocks.Exceptions.Handler;
 using HealthChecks.UI.Client;
+using JasperFx;
+using Marten;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,11 +20,21 @@ services.AddMediatR(conifg =>
     conifg.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
+services.AddMarten(opt =>
+{
+    opt.Connection(builder.Configuration.GetConnectionString("Database")!);
+    opt.Schema.For<ShoppingCart>().Identity(x => x.UserName);
+}).UseLightweightSessions();
+
+
 services.AddValidatorsFromAssembly(assembly);
 
 services.AddExceptionHandler<CustomExceptionHandler>();
 
 services.AddHealthChecks();
+
+services.AddScoped<IBasketRepository, BasketRepository>();
+
 var app = builder.Build();
 
 app.MapCarter();
@@ -34,4 +46,4 @@ app.UseHealthChecks("/health", new HealthCheckOptions()
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
-app.Run();
+await app.RunAsync();
