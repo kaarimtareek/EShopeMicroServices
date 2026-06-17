@@ -26,14 +26,22 @@ services.AddMarten(opt =>
     opt.Schema.For<ShoppingCart>().Identity(x => x.UserName);
 }).UseLightweightSessions();
 
+services.AddStackExchangeRedisCache(opt =>
+{
+    opt.Configuration = builder.Configuration.GetConnectionString("Redis")!;
+    opt.InstanceName = "Basket";
+});
 
 services.AddValidatorsFromAssembly(assembly);
 
 services.AddExceptionHandler<CustomExceptionHandler>();
 
-services.AddHealthChecks();
+services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("Database")!, name: "PostgreSQL", tags: new[] { "db", "sql", "postgresql" })
+    .AddRedis(builder.Configuration.GetConnectionString("Redis")!, name: "Redis", tags: new[] { "db", "cache", "redis" });
 
 services.AddScoped<IBasketRepository, BasketRepository>();
+services.Decorate<IBasketRepository, CachedBasketRepository>();
 
 var app = builder.Build();
 
