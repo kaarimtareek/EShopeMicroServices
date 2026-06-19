@@ -8,23 +8,30 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+            <DependentUpon>Dockerfile1</DependentUpon>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
+        <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
-      <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="9.0.0" />
-      <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
-      <PackageReference Include="Carter" Version="8.0.0" />
-      <PackageReference Include="Marten" Version="8.37.0" />
-      <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.17" />
-      <PackageReference Include="Scrutor" Version="7.0.0" />
+        <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0"/>
+        <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="9.0.0"/>
+        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0"/>
+        <PackageReference Include="Carter" Version="8.0.0"/>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.80.0"/>
+        <PackageReference Include="Marten" Version="8.37.0"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.17"/>
+        <PackageReference Include="Scrutor" Version="7.0.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Protobuf Include="..\..\Discount\Discount.GRPC\Protos\discount.proto" GrpcServices="Client">
+            <Link>Protos\discount.proto</Link>
+        </Protobuf>
+    </ItemGroup>
 </Project>
