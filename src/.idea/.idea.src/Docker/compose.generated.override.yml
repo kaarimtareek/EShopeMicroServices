@@ -1,0 +1,56 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  basket.api:
+    build:
+      context: "D:\\PersonalProjects\\EShopeMicroServices\\src"
+      dockerfile: "Services/Basket/Basket.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/Basket.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "basket.api:dev"
+    ports: []
+    volumes:
+    - "D:\\PersonalProjects\\EShopeMicroServices\\src\\Services\\Basket\\Basket.API:/app:rw"
+    - "D:\\PersonalProjects\\EShopeMicroServices\\src:/src:rw"
+    - "C:\\Users\\Karim Tarek\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"
+  catalog.api:
+    build:
+      context: "D:\\PersonalProjects\\EShopeMicroServices\\src"
+      dockerfile: "Services/Catalog/Catalog.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/Catalog.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "catalog.api:dev"
+    ports: []
+    volumes:
+    - "D:\\PersonalProjects\\EShopeMicroServices\\src\\Services\\Catalog\\Catalog.API:/app:rw"
+    - "D:\\PersonalProjects\\EShopeMicroServices\\src:/src:rw"
+    - "C:\\Users\\Karim Tarek\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"
+  discount.grpc:
+    build:
+      context: "D:\\PersonalProjects\\EShopeMicroServices\\src"
+      dockerfile: "Services/Discount/Discount.GRPC/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/Discount.GRPC.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "discount.grpc:dev"
+    ports: []
+    volumes:
+    - "D:\\PersonalProjects\\EShopeMicroServices\\src\\Services\\Discount\\Discount.GRPC:/app:rw"
+    - "D:\\PersonalProjects\\EShopeMicroServices\\src:/src:rw"
+    - "C:\\Users\\Karim Tarek\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"

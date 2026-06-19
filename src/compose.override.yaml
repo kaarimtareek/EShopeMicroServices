@@ -57,6 +57,7 @@
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__Database=Server=basketdb;Port=5432;Database=basketdb;Username=postgres;Password=postgres
       - ConnectionStrings__Redis=distributedcache:6379
+      - GrpcSettings__DiscountUrl=https://discount.grpc:8081
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
     ports:
@@ -69,3 +70,22 @@
     depends_on:
       - basketdb
       - distributedcache
+      - discount.grpc
+  
+  discount.grpc:
+    container_name: discount.grpc
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__Database=Data Source=discountdb
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+    ports:
+      - "6002:8080"
+      - "6062:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${USERPROFILE}/.aspnet/https:/https:ro
