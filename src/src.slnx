@@ -12,6 +12,12 @@
   <Folder Name="/Services/Discount/">
     <Project Path="Services/Discount/Discount.GRPC/Discount.GRPC.csproj" />
   </Folder>
+  <Folder Name="/Services/Ordering/">
+    <Project Path="Services/Ordering/Order.Domain/Order.Domain.csproj" />
+    <Project Path="Services/Ordering/Ordering.API/Ordering.API.csproj" />
+    <Project Path="Services/Ordering/Ordering.Application/Ordering.Application.csproj" />
+    <Project Path="Services/Ordering/Ordering.Infrastrcuture/Ordering.Infrastrcuture.csproj" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path="compose.override.yaml" />
     <File Path="compose.yaml" />
