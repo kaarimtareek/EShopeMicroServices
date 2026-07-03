@@ -22,12 +22,24 @@
       - "5433:5432"
     volumes:
       - postgres_basket:/var/lib/postgresql/data
+  
+  orderdb:
+    container_name: orderdb
+    environment:
+      SA_PASSWORD: "P@ssword123"
+      ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+      - "1434:1433"
+#    volumes:
+#      - mssql_order:/var/opt/mssql/data
 
   distributedcache:
     container_name: distributedcache
     restart: always
     ports:
       - "6379:6379"
+  
   catalog.api:
     container_name: catalog.api
     restart: always
