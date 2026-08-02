@@ -36,6 +36,7 @@
     build:
       context: .
       dockerfile: Services/Discount/Discount.GRPC/Dockerfile
+       
   ordering.api:
     image: ordering.api
     build:

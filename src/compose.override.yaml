@@ -31,8 +31,8 @@
     restart: always
     ports:
       - "1434:1433"
-#    volumes:
-#      - mssql_order:/var/opt/mssql/data
+  #    volumes:
+  #      - mssql_order:/var/opt/mssql/data
 
   distributedcache:
     container_name: distributedcache
@@ -101,3 +101,22 @@
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
       - ${USERPROFILE}/.aspnet/https:/https:ro
+
+  ordering.api:
+    container_name: ordering.api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__Database=Server=orderdb;User ID=sa;Password=P@ssword123;Encrypt=false;TrustServerCertificate=true
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+    ports:
+      - "6003:8080"
+      - "6063:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${USERPROFILE}/.aspnet/https:/https:ro
+  

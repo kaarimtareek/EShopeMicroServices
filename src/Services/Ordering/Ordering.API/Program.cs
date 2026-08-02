@@ -8,9 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 //add services
 var services = builder.Services;
 
-services.AddApplicationServices();
-services.AddInfrastructureServices(builder.Configuration);
-services.AddApiServices();
+services
+    .AddApplicationServices(builder.Configuration)
+    .AddInfrastructureServices(builder.Configuration)
+    .AddApiServices(builder.Configuration);
 
 var app = builder.Build();
 
