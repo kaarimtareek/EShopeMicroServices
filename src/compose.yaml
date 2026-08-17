@@ -18,6 +18,11 @@
     image: redis:latest
     build:
       context: .
+      
+  messagebroker:
+    image: rabbitmq:3-management
+    build:
+      context: .
 
   catalog.api:
     image: catalog.api

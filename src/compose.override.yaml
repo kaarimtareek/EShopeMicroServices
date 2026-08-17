@@ -40,6 +40,18 @@
     ports:
       - "6379:6379"
   
+  messagebroker:
+    container_name: messagebroker
+    hostname: ecommerce-mq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692"
+  
   catalog.api:
     container_name: catalog.api
     restart: always
@@ -70,6 +82,12 @@
       - ConnectionStrings__Database=Server=basketdb;Port=5432;Database=basketdb;Username=postgres;Password=postgres
       - ConnectionStrings__Redis=distributedcache:6379
       - GrpcSettings__DiscountUrl=https://discount.grpc:8081
+      - RABBITMQ__Host=amqp://ecommerce-mq:5672
+      - RABBITMQ__USERNAME=guest
+      - RABBITMQ__PASSWORD=guest
+      - MessageBroker__Host=amqp://ecommerce-mq:5672
+      - MessageBroker__USERNAME=guest
+      - MessageBroker__PASSWORD=guest
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
     ports:
@@ -82,6 +100,7 @@
     depends_on:
       - basketdb
       - distributedcache
+      - messagebroker
       - discount.grpc
   
   discount.grpc:
@@ -109,12 +128,21 @@
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
+      - RABBITMQ__Host=amqp://ecommerce-mq:5672
+      - RABBITMQ__USERNAME=guest
+      - RABBITMQ__PASSWORD=guest
+      - MessageBroker__Host=amqp://ecommerce-mq:5672
+      - MessageBroker__USERNAME=guest
+      - MessageBroker__PASSWORD=guest
       - ConnectionStrings__Database=Server=orderdb;User ID=sa;Password=P@ssword123;Encrypt=false;TrustServerCertificate=true
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
     ports:
       - "6003:8080"
       - "6063:8081"
+    depends_on:
+      - orderdb
+      - messagebroker
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
