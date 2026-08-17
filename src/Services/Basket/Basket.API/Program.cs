@@ -1,5 +1,6 @@
 using Basket.API.Data;
 using BuildingBlocks.Exceptions.Handler;
+using BuildingBlocks.Messaging.MassTransit;
 using Discount.Grpc;
 using HealthChecks.UI.Client;
 using JasperFx;
@@ -43,6 +44,10 @@ services.AddGrpcClient<DiscountService.DiscountServiceClient>(options =>
     {
         ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
     });
+
+//Async Communication Services
+services.AddMessageBroker(builder.Configuration);
+
 //Validation services 
 services.AddValidatorsFromAssembly(assembly);
 
@@ -51,9 +56,9 @@ services.AddExceptionHandler<CustomExceptionHandler>();
 //Health check services
 services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Database")!, name: "PostgreSQL",
-        tags: new[] { "db", "sql", "postgresql" })
+        tags: ["db", "sql", "postgresql"])
     .AddRedis(builder.Configuration.GetConnectionString("Redis")!, name: "Redis",
-        tags: new[] { "db", "cache", "redis" });
+        tags: ["db", "cache", "redis"]);
 
 services.AddScoped<IBasketRepository, BasketRepository>();
 services.Decorate<IBasketRepository, CachedBasketRepository>();

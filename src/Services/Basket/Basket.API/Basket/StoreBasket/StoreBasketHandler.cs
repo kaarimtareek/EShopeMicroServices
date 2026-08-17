@@ -39,6 +39,8 @@ public class StoreBasketCommandHandler(
             return;
         foreach (var item in cart.Items)
         {
+            if(item.ProductName is null or { Length: 0 })
+                continue;
             var discount =
                 await discountService.GetDiscountAsync(new GetDiscountRequest { ProductName = item.ProductName },
                     cancellationToken: cancellationToken);
