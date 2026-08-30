@@ -1,4 +1,9 @@
 ﻿services:
+  yarpapigateway:
+    image: yarpapigateway
+    build:
+      context: .
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
   catalogdb:
     image: postgres:17
     build:
@@ -18,7 +23,7 @@
     image: redis:latest
     build:
       context: .
-      
+  
   messagebroker:
     image: rabbitmq:3-management
     build:
@@ -41,7 +46,7 @@
     build:
       context: .
       dockerfile: Services/Discount/Discount.GRPC/Dockerfile
-       
+  
   ordering.api:
     image: ordering.api
     build:
